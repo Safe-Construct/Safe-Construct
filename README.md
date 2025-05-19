@@ -30,14 +30,13 @@
 
 ---
 
-## :rocket: **Updates**
-- <i>More Coming Soon</i>
+## 🚀 **Updates**
 - 🔲 **Coming Soon!**: Safe-Construct Inference Codes and Weights.
-- ✅ **Sep. 25, 2024**: Safe-Construct accepted at CVPR 2025 Affective Behavior Analysis in-the-wild. See everyone at Nashville!</i>
 - ✅ **May. 18, 2025**: Safe-Construct project page is now live.
 - ✅ **Apr. 15, 2025**: We released the Safe-Construct Paper on arXiv. Check the preprint!
+- ✅ **Apr. 04, 2025**: Safe-Construct accepted at CVPR 2025 Affective Behavior Analysis in-the-wild. See everyone at Nashville!</i>
 
-## :open_book: **Abstract**
+## 📖 **Abstract**
 
 Recognizing safety violations in construction environments is critical yet 
 remains underexplored in computer vision. Existing models 
@@ -61,15 +60,15 @@ overexposure, sunlight). By integrating 3D multi-view spatial understanding
 and synthetic data generation, Safe-Construct sets a new benchmark for 
 scalable and robust safety monitoring in high-risk industries.
 
-## Demo Implementation
+## 💻 Demo Implementation
 
 Coming Soon!
 
-## Star History
+## ⭐ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Safe-Construct/Safe-Construct&type=Date)](https://www.star-history.com/#safe-construct/Safe-Construct&Date)
 
-## License
+## ©️ License
 
 Shield: [![CC BY-NC 4.0][cc-by-nc-shield]][cc-by-nc]
 
@@ -82,13 +81,13 @@ Permission is granted for non-commercial research. For commerical use, please re
 [cc-by-nc-image]: https://licensebuttons.net/l/by-nc/4.0/88x31.png
 [cc-by-nc-shield]: https://img.shields.io/badge/License-CC%20BY--NC%204.0-lightgrey.svg
 
-## Acknowledgements
+## ℹ️ Acknowledgements
 
 Parts of the codes have been taken and adapted from the below repos. Please acknowledge and adhere to the licenses of each repository that Safe-Construct builds upon.
 - [YOLOv7](https://github.com/WongKinYiu/yolov7)
 - [OpenCV](https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html)
 
-## :bookmark_tabs: Citation
+## 📑 Citation
 If you find our work useful for your project, please consider adding a star to this repo and citing our paper:
 ```bibtex
         @misc{chharia2025safeconstructredefiningconstructionsafety,
