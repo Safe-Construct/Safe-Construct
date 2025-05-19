@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Recognizing safety violations in construction environments is 
+        critical yet remains underexplored in computer vision. Existing models 
+        predominantly rely on 2D object detection, which fails to capture the 
+        complexities of real-world violations due to: (i) an oversimplified task 
+        formulation treating violation recognition merely as object detection, 
+        (ii) in-adequate validation under realistic conditions, (iii) absence of 
+        standardized baselines, and (iv) limited scalability from the 
+        unavailability of synthetic dataset generators for diverse construction 
+        scenarios. To address these challenges, we introduce Safe-Construct, 
+        the first framework that reformulates violation recognition as a 3D 
+        multi-view engagement task, leveraging scene-level worker-object context 
+        and 3D spatial understanding. We also propose the Synthetic Indoor 
+        Construction Site Generator (SICSG) to create diverse, scalable training 
+        data, overcoming data limitations. Safe-Construct achieves a 7.6% improvement 
+        over state-of-the-art methods across four violation types. We rigorously 
+        evaluate our approach in near-realistic settings, incorporating four violations, 
+        four workers, 14 objects, and challenging conditions like occlusions 
+        (worker-object, worker-worker) and variable illumination (back-lighting, 
+        overexposure, sunlight). By integrating 3D multi-view spatial understanding 
+        and synthetic data generation, Safe-Construct sets a new benchmark for 
+        scalable and robust safety monitoring in high-risk industries.">
+  <meta name="keywords" content="3D Human Reconstruction, Digital Humans, Safety Violations, Computer Vision, Human Sensing">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CMU-Construct: Recognizing Safety Violations in 3D Multi-camera Indoor Construction Environments</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+</head>
+<body>
+
+
+  
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          
+          <section class="hero teaser">
+            <div class="container is-max-desktop">
+              <br>
+                <div style="display: flex; justify-content: center;">
+                  <img src="./static/images/Safe-Construct.png" alt="Safe-Construct" style="width: 45%; height: 45%;">
+                </div>
+            </div>
+          </section>     
+          
+          <h1 class="title is-1 publication-title">Redefining Construction Safety Violation Recognition as 3D Multi-View<br> Engagement Task</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://aviralchharia.github.io/">Aviral Chharia</a><sup>1</sup>, </span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/tianyur/">Tianyu Ren</a><sup>2</sup>, </span>
+            <span class="author-block">
+              <a href="https://www.andrew.cmu.edu/user/tomotake/">Tomotake Furuhata</a><sup>1</sup>, </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=pgcK25AAAAAJ">Kenji Shimada</a><sup>1</sup></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Carnegie Mellon University, <sup>2</sup>University of Illinois Urbana-Champaign</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <h1 class="is-size-3 publication-title"><strong>CVPR 2025 Affective Behavior Analysis in-the-wild</strong></h1>
+          </div>
+
+          <section class="hero teaser">
+            <div class="container is-max-desktop">
+              <br>
+                <div style="display: flex; justify-content: center;">
+                  <img src="./static/images/cmu_meche_logo.jpg" alt="Carnegie Mellon University" style="width: 30%; height: 40%; margin-right: 20px;">
+                  <img src="./static/images/UIUC_Logo.png" alt="University of Illinois Urbana-Champaign" style="width: 22%; height: 30%; margin-right: 10px;">
+                </div>
+            </div>
+          </section>   
+          
+          <section class="hero teaser">
+            <div class="container is-max-desktop">
+              <br>
+                <div style="display: flex; justify-content: center;">
+                  <img src="./static/images/CVPR-2025.png" alt="CVPR 2025" style="width: 25%; height: 30%;">
+                </div>
+              <br>
+            </div>
+          </section>   
+
+          <!-- ArXiv Link -->
+          <span class="link-block">
+            <a href="https://arxiv.org/abs/2504.10880" target="_blank"
+            class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <i class="ai ai-arxiv"></i>
+            </span>
+            <span>arXiv</span>
+          </a>
+          </span>
+
+          <!-- YouTube Link -->
+          <span class="link-block">
+            <a href="https://www.youtube.com/"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                  <i class="fab fa-youtube"></i>
+              </span>
+              <span>Video</span>
+            </a>
+          </span>
+
+          <!-- Citation Link -->
+          <span class="link-block">
+            <a href="static/scholar.html" target="_blank"
+            class="external-link button is-normal is-rounded is-dark">
+            <span>BibTeX</span>
+          </a>
+          </span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div style="display: flex; justify-content: center;">
+        <img src="./static/images/CMU-Construct_Model_Architecture.gif" alt="CMU-Construct Model Architecture" style="width: 100%; height: auto;">
+      </div>
+        <div class="content has-text-justified">
+        <br>
+        Safe-Construct is the first 3D multi-view model for construction safety violation recognition. 
+        It consists of: (a) a multi-camera setup at an indoor construction site, (b) a synthetic indoor construction 
+        site generator (SICSG), followed by a (c) cross-view association and compliance matching module.
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">
+          Abstract
+        </h2>
+        <div class="content has-text-justified">
+          <p>
+            Recognizing safety violations in construction environments is 
+            critical yet remains underexplored in computer vision. Existing models 
+            predominantly rely on 2D object detection, which fails to capture the 
+            complexities of real-world violations due to: (i) an oversimplified task 
+            formulation treating violation recognition merely as object detection, 
+            (ii) in-adequate validation under realistic conditions, (iii) absence of 
+            standardized baselines, and (iv) limited scalability from the 
+            unavailability of synthetic dataset generators for diverse construction 
+            scenarios. To address these challenges, we introduce Safe-Construct, 
+            the first framework that reformulates violation recognition as a 3D 
+            multi-view engagement task, leveraging scene-level worker-object context 
+            and 3D spatial understanding. We also propose the Synthetic Indoor 
+            Construction Site Generator (SICSG) to create diverse, scalable training 
+            data, overcoming data limitations. Safe-Construct achieves a <strong>7.6%</strong> 
+            improvement over state-of-the-art methods across four violation types. We 
+            rigorously evaluate our approach in near-realistic settings, incorporating 
+            four violations, four workers, 14 objects, and challenging conditions like 
+            occlusions (worker-object, worker-worker) and variable illumination (back-lighting, 
+            overexposure, sunlight). By integrating 3D multi-view spatial understanding 
+            and synthetic data generation, Safe-Construct sets a new benchmark for 
+            scalable and robust safety monitoring in high-risk industries.
+          </p>
+        </div>
+      
+        <!-- <table width=100%>
+          <tr>
+            <td width=50%>
+              <video loop controls muted autoplay playsinline class="bigvideo">
+                <source src="./static/images/Safe_Construct_Video_Results.mp4" type="video/mp4">
+              </video>
+            </td>
+          </tr>
+        </table> -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">
+          Motivation
+        </h2>
+        <div style="display: flex; justify-content: center;">
+          <img src="./static/images/Paradigm_Comparison.jpg" alt="Concept Image" style="width: 80%; height: auto;">
+        </div>
+        <div class="content has-text-justified">
+          <br> 
+          <strong>Comparison with Prior Methods.</strong> Previous models train on crowd-sourced or 
+          web-mined data: Pictor-v2, Pictor-v3, and Roboflow framing the problem as 2D object 
+          detection task. These lack 3D spatial understanding and scene-level worker-object context. 
+          These datasets are small with most images having unrealistic resolutions and perspectives 
+          (see pictures 1-4 in Pictor-v3, 1-2 in Pictor-v2, and 2-7 in Roboflow). Realistic industrial 
+          setups do not feature workers in close camera proximity (&lt;1 m). (b) In contrast, CMU-Construct 
+          is the first multi-view 3D violation recognition model that leverages 3D spatial understanding 
+          and scene-level worker-object context.<br><br>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">
+          Contributions
+        </h2>
+        <ul>
+          <li><p>We are the first to formulate violation recognition as a 3D multi-view engagement task. 
+            By leveraging geometry-based modeling and multi-view inputs, our approach achieves 
+            occlusion-robust, scene-level understanding that surpasses existing state-of-the-art methods.</p></li>
+          <li><p>Safe-Construct is the first framework to decouple violation criteria from training data, 
+            enabling scalable generalization to new violation types without the need for collecting 
+            additional real-dataset datasets.</p></li>
+          <li><p>We introduce the Synthetic Indoor Construction Scene Generator (SICSG), a novel 
+            custom engine that generates physically realistic scene variations, such as illumination, 
+            occlusion, and perspective changes, imparting spatial awareness and physical common sense to the model.</p></li>
+          <li><p>We conduct the first evaluation in a 3D multi-camera indoor construction setup, comprising 
+            four safety violations, four workers and 14 objects across diverse conditions—occlusions, 
+            lighting variations, and camera distances resulting in significant scale changes in worker 
+            bodies, significantly increasing scene complexity. Safe-Construct consistently outperforms 
+            prior methods. Moreover, it is the first model tailored specifically for indoor 
+            construction settings.</p></li>
+        </ul>
+        <br>
+        <div style="display: flex; justify-content: center;">
+          <br><br>
+          <img src="./static/images/Quantitative_Results.png" alt="Quantitative Results" style="width: 100%; height: auto;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+</section>
+
+
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered">
+    <div class="column is-full-width">
+      <h2 class="title is-3">Qualitative Results</h2>
+      <p> We show the 2D re-projection of worker and object's pose on the image plane: 
+        Rows (a), (b) show two safe scenarios, while (c), (d) illustrate two 
+        violations: (a) Worker wearing a <strong><span style="color: blue;">hard hat</span></strong>, 
+        (b) Second worker holding the <strong><span style="color: magenta;">Step Ladder</span></strong> 
+        when the first worker climbs it, (c) Only one worker is carrying a 
+        <strong><span style="color: teal;">Large Window</span></strong> that should be carried by 
+        two workers showing a violation scenario (the <strong><span style="color: magenta;">small window</span></strong> 
+        is represented in magenta), (d) Two workers are standing on the 
+        <strong><span style="color: teal;">Platform</span></strong> simultaneously.
+      </p><br>
+      <div style="display: flex; justify-content: center;">
+        <br><br>
+        <img src="./static/images/obtained_results-2.jpg" alt="Results" style="width: 100%; height: auto;">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container is-max-desktop">
+  <div class="columns is-centered">
+    <div class="column is-full-width">
+      <h2 class="title is-3">Edge Cases</h2>
+      <p>
+        (a) A case when the hard hat is not detected. We mark this 
+        as a violation, based on the previous frame i.e., unless the 
+        worker wears the hard hat again, all frames are tagged as violations. 
+        (b) Increasing the number of views improves model prediction.
+      </p><br>
+      <div style="display: flex; justify-content: center;">
+        <br><br>
+        <img src="./static/images/Ablation_2-2.jpg" alt="Edge Cases" style="width: 100%; height: auto;">
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@misc{chharia2025safeconstructredefiningconstructionsafety,
+      title={Safe-Construct: Redefining Construction Safety Violation Recognition as 3D Multi-View Engagement Task}, 
+      author={Aviral Chharia and Tianyu Ren and Tomotake Furuhata and Kenji Shimada},
+      year={2025},
+      eprint={2504.10880},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2504.10880}, 
+    }
+    </code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+      href="https://arxiv.org/abs/2504.10880">
+     <i class="fas fa-file-pdf"></i>
+   </a>
+   <a class="icon-link" href="https://github.com/Safe-Construct/Safe-Construct" class="external-link" disabled>
+     <i class="fab fa-github"></i>
+   </a>
+      <br />
+      <p>Page template borrowed from <a href="https://nerfies.github.io/"><span class="dnerf">Nerfies</span></a>.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
